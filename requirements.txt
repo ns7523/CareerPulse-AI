@@ -25,10 +25,11 @@ pdf2image
 pytesseract
 pdfplumber
 reportlab
-openrouter
 docx2txt
 python-pptx
 matplotlib
 seaborn
 fpdf2
+deep-translator
+httpx
 googletrans==3.1.0a0
