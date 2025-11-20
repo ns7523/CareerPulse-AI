@@ -527,7 +527,7 @@ class ResumeApp:
             # Footer text
             st.markdown("""
             <p style='text-align: center;'>
-                Powered by <b>Streamlit</b> and <b>Google Gemini AI</b> |  2025-2026
+                Powered by <b>N S</b> and <b>Google Gemini AI</b> |  2025-2026
                
             """, unsafe_allow_html=True)
             
