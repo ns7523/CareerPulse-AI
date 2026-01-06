@@ -190,7 +190,7 @@ class AIResumeAnalyzer:
             return {"error": "Google API key is not configured. Please add it to your .env file."}
         
         try:
-            model = genai.GenerativeModel("models/gemini-2.5-pro")
+            model = genai.GenerativeModel("models/gemini-2.5-flash")
             
             base_prompt = f"""
             You are an expert resume analyst with deep knowledge of industry standards, job requirements, and hiring practices across various fields. Your task is to provide a comprehensive, detailed analysis of the resume provided.
