@@ -1,4 +1,4 @@
-# CareerPulse AI 🚀  
+# 🚀 CareerPulse AI   [![Open Live Demo](https://img.shields.io/badge/🚀%20Open%20Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://careerpulseai.streamlit.app)
 **AI-Powered Career Guidance & Resume Intelligence Platform**
 
 CareerPulse AI is a smart career-support platform designed to help students and job-seekers improve their resumes, discover career paths, and prepare for interviews using AI-driven insights.
