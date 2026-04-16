@@ -152,13 +152,13 @@ class ResumeApp:
             st.session_state.is_admin = False
 
         self.pages = {
-        t("🏠 HOME"): self.render_home,
-        t("🔍 RESUME ANALYZER"): self.render_analyzer,
-        t("📝 RESUME BUILDER"): self.render_builder,
-        t("📊 DASHBOARD"): self.render_dashboard,
-        t("🎯 JOB SEARCH"): self.render_job_search,
-        t("💬 FEEDBACK"): self.render_feedback_page,
-        }
+                "🏠 HOME": self.render_home,
+                "🔍 RESUME ANALYZER": self.render_analyzer,
+                "📝 RESUME BUILDER": self.render_builder,
+                "📊 DASHBOARD": self.render_dashboard,
+                "🎯 JOB SEARCH": self.render_job_search,
+                "💬 FEEDBACK": self.render_feedback_page,
+            }
 
 
         # Initialize dashboard manager
