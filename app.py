@@ -43,39 +43,45 @@ lang_reverse_map = {
     #except Exception:
      #   return text
 
-def t(text, lang_code):
+def t(text, lang_code="en"):
     try:
-        if lang_code != "en":
-            target_lang = lang_reverse_map.get(lang_code, "English")
-
-            url = "https://openrouter.ai/api/v1/chat/completions"
-
-            headers = {
-                "Authorization": f"Bearer {API_KEY}",
-                "Content-Type": "application/json"
-            }
-
-            prompt = f"Translate this text to {target_lang}. Keep meaning accurate:\n\n{text}"
-
-            data = {
-                "model": "mistralai/mistral-7b-instruct",
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
-            }
-
-            response = requests.post(url, headers=headers, json=data)
-
-            if response.status_code != 200:
-                return text
-
-            return response.json()["choices"][0]["message"]["content"]
-
-        else:
+        # Skip translation for English
+        if lang_code == "en":
             return text
 
+        target_lang = lang_reverse_map.get(lang_code, "English")
+
+        url = "https://openrouter.ai/api/v1/chat/completions"
+
+        headers = {
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://careerpulse-ai.streamlit.app",  # important
+            "X-Title": "CareerPulseAI"
+        }
+
+        prompt = f"Translate this text to {target_lang}. Only return translated text:\n\n{text}"
+
+        data = {
+            "model": "openai/gpt-3.5-turbo",  # more reliable
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+
+        response = requests.post(url, headers=headers, json=data, timeout=15)
+
+        # If API fails → fallback
+        if response.status_code != 200:
+            print("API ERROR:", response.status_code, response.text)
+            return text
+
+        result = response.json()
+
+        return result["choices"][0]["message"]["content"].strip()
+
     except Exception as e:
-        print("ERROR:", e)
+        print("EXCEPTION:", e)
         return text
 
 import time
