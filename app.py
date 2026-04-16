@@ -43,7 +43,7 @@ lang_reverse_map = {
     #except Exception:
      #   return text
 
-def t(text):
+def t(text, lang_code):
     try:
         if lang_code != "en":
             target_lang = lang_reverse_map.get(lang_code, "English")
@@ -66,20 +66,16 @@ def t(text):
 
             response = requests.post(url, headers=headers, json=data)
 
-            # 🔥 DEBUG LINE
-            print(response.status_code, response.text)
-
             if response.status_code != 200:
                 return text
 
-            result = response.json()
-            return result["choices"][0]["message"]["content"]
+            return response.json()["choices"][0]["message"]["content"]
 
         else:
             return text
 
     except Exception as e:
-        print("ERROR:", e)   # 🔥 SHOW ERROR
+        print("ERROR:", e)
         return text
 
 import time
@@ -1165,28 +1161,14 @@ class ResumeApp:
                       #  "Japanese": {"summary": translator.translate(summary, dest="ja").text}
                     #
                     translations = {}
-                             
-                    translations["English"] = {"summary": summary}
-                                    
-                                    # French
-                    lang_code = "fr"
-                    translations["French"] = {"summary": t(summary)}
-                                    
-                                    # German
-                    lang_code = "de"
-                    translations["German"] = {"summary": t(summary)}
-                                    
-                                    # Chinese
-                    lang_code = "zh-cn"
-                    translations["Chinese"] = {"summary": t(summary)}
-                                    
-                                    # Japanese
-                    lang_code = "ja"
-                    translations["Japanese"] = {"summary": t(summary)}
-                                    
-                                    # Final selection
-                        
 
+                    translations["English"] = {"summary": summary}
+                    
+                    translations["French"] = {"summary": t(summary, "fr")}
+                    translations["German"] = {"summary": t(summary, "de")}
+                    translations["Chinese"] = {"summary": t(summary, "zh-cn")}
+                    translations["Japanese"] = {"summary": t(summary, "ja")}
+                    
                     resume_data["summary"] = translations[language]["summary"]
 
                     resume_buffer = self.builder.generate_resume(resume_data)
