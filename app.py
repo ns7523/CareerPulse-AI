@@ -1,9 +1,10 @@
 ﻿"""
 CareerPulse AI - Main Application
 """
-from googletrans import Translator
-import streamlit as st
+#from googletrans import Translator
 
+import streamlit as st
+import requests
 st.set_page_config(
     page_title="CareerPulse AI",
     page_icon="🚀",
@@ -13,31 +14,61 @@ st.set_page_config(
 translator = Translator()
 
 # Language mapping
-languages = {
-    "English": "en",
-    "Hindi": "hi",
-    "Kannada": "kn",
-    "Tamil": "ta",
-    "Telugu": "te",
-    "Malayalam": "ml",
-    "French": "fr",
-    "German": "de",
-    "Spanish": "es",
-    "Chinese": "zh-cn",
-    "Japanese": "ja",
-    "Russian": "ru"
+lang_reverse_map = {
+    "en": "English",
+    "hi": "Hindi",
+    "kn": "Kannada",
+    "ta": "Tamil",
+    "te": "Telugu",
+    "ml": "Malayalam",
+    "fr": "French",
+    "de": "German",
+    "es": "Spanish",
+    "zh-cn": "Chinese",
+    "ja": "Japanese",
+    "ru": "Russian"
 }
 
 
 
 
 # Translator wrapper function
+#def t(text):
+ #   try:
+  #      if lang_code != "en":
+   #         return translator.translate(text, dest=lang_code).text
+    #    else:
+     #       return text
+    #except Exception:
+     #   return text
+
 def t(text):
     try:
         if lang_code != "en":
-            return translator.translate(text, dest=lang_code).text
+            target_lang = lang_reverse_map.get(lang_code, "English")
+
+            url = "https://openrouter.ai/api/v1/chat/completions"
+
+            headers = {
+                "Authorization": "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",
+                "Content-Type": "application/json"
+            }
+
+            prompt = f"Translate this text to {target_lang}. Keep meaning accurate:\n\n{text}"
+
+            data = {
+                "model": "mistralai/mistral-7b-instruct",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ]
+            }
+
+            response = requests.post(url, headers=headers, json=data)
+
+            return response.json()["choices"][0]["message"]["content"]
         else:
             return text
+
     except Exception:
         return text
 
