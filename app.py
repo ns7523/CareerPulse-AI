@@ -1145,16 +1145,38 @@ class ResumeApp:
                 
                 try:
                     # Initialize translator
-                    translator = Translator()
+                    #translator = Translator()
 
                     # Generate resume
-                    translations = {
-                        "English": {"summary": summary},
-                        "French": {"summary": translator.translate(summary, dest="fr").text},
-                        "German": {"summary": translator.translate(summary, dest="de").text},
-                        "Chinese": {"summary": translator.translate(summary, dest="zh-cn").text},
-                        "Japanese": {"summary": translator.translate(summary, dest="ja").text}
-                    }
+                    #translations = {
+                       # "English": {"summary": summary},
+                      #  "French": {"summary": translator.translate(summary, dest="fr").text},
+                      #  "German": {"summary": translator.translate(summary, dest="de").text},
+                      #  "Chinese": {"summary": translator.translate(summary, dest="zh-cn").text},
+                      #  "Japanese": {"summary": translator.translate(summary, dest="ja").text}
+                    #
+                    translations = {}
+                             
+                    translations["English"] = {"summary": summary}
+                                    
+                                    # French
+                    lang_code = "fr"
+                    translations["French"] = {"summary": t(summary)}
+                                    
+                                    # German
+                    lang_code = "de"
+                    translations["German"] = {"summary": t(summary)}
+                                    
+                                    # Chinese
+                    lang_code = "zh-cn"
+                    translations["Chinese"] = {"summary": t(summary)}
+                                    
+                                    # Japanese
+                    lang_code = "ja"
+                    translations["Japanese"] = {"summary": t(summary)}
+                                    
+                                    # Final selection
+                        
 
                     resume_data["summary"] = translations[language]["summary"]
 
