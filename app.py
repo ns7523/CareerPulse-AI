@@ -5,6 +5,7 @@ CareerPulse AI - Main Application
 
 import streamlit as st
 import requests
+API_KEY = st.secrets["OPENROUTER_API_KEY"]
 st.set_page_config(
     page_title="CareerPulse AI",
     page_icon="🚀",
@@ -50,7 +51,7 @@ def t(text):
             url = "https://openrouter.ai/api/v1/chat/completions"
 
             headers = {
-                "Authorization": "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",
+                "Authorization": f"Bearer {API_KEY}",
                 "Content-Type": "application/json"
             }
 
@@ -69,9 +70,8 @@ def t(text):
         else:
             return text
 
-    except Exception:
+    except Exception as e:
         return text
-
 
 import time
 from PIL import Image
