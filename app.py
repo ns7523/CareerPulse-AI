@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 # Initialize translator
-translator = Translator()
+#translator = Translator()
 
 # Language mapping
 lang_reverse_map = {
