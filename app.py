@@ -66,11 +66,20 @@ def t(text):
 
             response = requests.post(url, headers=headers, json=data)
 
-            return response.json()["choices"][0]["message"]["content"]
+            # 🔥 DEBUG LINE
+            print(response.status_code, response.text)
+
+            if response.status_code != 200:
+                return text
+
+            result = response.json()
+            return result["choices"][0]["message"]["content"]
+
         else:
             return text
 
     except Exception as e:
+        print("ERROR:", e)   # 🔥 SHOW ERROR
         return text
 
 import time
