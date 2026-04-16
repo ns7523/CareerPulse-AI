@@ -680,7 +680,7 @@ class ResumeApp:
         template_options = ["Modern", "Professional", "Minimal", "Creative"]
         selected_template = st.selectbox(
     "Select Resume Template", template_options)
-        st.success(t(f"🎨 Currently using: {selected_template} Template"))
+        st.success(f"🎨 Currently using: {selected_template} Template")
         language = st.selectbox(
                                         "🌐 Choose your language for the resume",
                                         ["English", "French", "German", "Chinese", "Japanese"]
