@@ -63,7 +63,7 @@ def t(text, lang_code="en"):
         prompt = f"Translate this text to {target_lang}. Only return translated text:\n\n{text}"
 
         data = {
-            "model": "openai/free",  # more reliable
+            "model": "mistralai/mistral-7b-instruct:free",  # more reliable
             "messages": [
                 {"role": "user", "content": prompt}
             ]
