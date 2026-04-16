@@ -34,5 +34,6 @@ docx2pdf
 docx2txt
 python-pptx
 matplotlib
+googletrans==4.0.0-rc1
 seaborn
 pypdf2
