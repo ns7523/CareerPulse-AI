@@ -209,10 +209,22 @@ async def upload_resume(
         job_description=job_description,
         fallback_analysis=base_analysis,
     )
-    analysis = merge_analysis(base_analysis, ai_result.get("analysis"))
+    print("AI FULL RESPONSE:", ai_result)
+    if ai_result.get("analysis") is None:
+        print("⚠️ AI FAILED → using base analysis")
+        analysis = base_analysis
+    else:
+        print("✅ AI SUCCESS → merging analysis")
+        analysis = merge_analysis(base_analysis, ai_result.get("analysis"))
 
     certifications = extract_certifications(raw_text)
     suggested_roles = suggest_roles(raw_text)
+    print("--------------------------------------------------")
+    print("ROLE SELECTED:", target_role)
+    print("ROLE USED:", role_context["role"])
+    print("AI MODE:", ai_result["processing"]["mode"])
+    print("PROVIDER:", ai_result["processing"]["provider_used"])
+    print("--------------------------------------------------")
 
     return {
         "status": "success",
@@ -453,47 +465,62 @@ def build_ai_prompt(
     job_description: str | None,
     fallback_analysis: dict[str, Any],
 ) -> str:
-    required_skills_text = ", ".join(required_skills) if required_skills else "Not specified"
-    fallback_missing = ", ".join(fallback_analysis.get("keyword_match", {}).get("missing_skills", [])) or "None detected"
-    return f"""
-You are an expert resume analyst. Review the resume and return only valid JSON.
 
-Return this exact JSON shape:
+    required_skills_text = ", ".join(required_skills) if required_skills else "Not specified"
+
+    return f"""
+You are a STRICT ATS system and hiring manager.
+
+🎯 YOUR TASK:
+Evaluate this resume ONLY for the role: {role_name}
+
+🚨 IMPORTANT RULES:
+- DO NOT give generic feedback
+- Output MUST CHANGE if role changes
+- Focus ONLY on this role
+- Penalize missing required skills heavily
+- Ignore unrelated skills/experience
+
+📌 ROLE: {role_name}
+📌 REQUIRED SKILLS: {required_skills_text}
+📌 JOB DESCRIPTION: {job_description or "Not provided"}
+
+---
+
+📄 RESUME:
+{resume_text}
+
+---
+
+📤 OUTPUT FORMAT (STRICT JSON ONLY):
+
 {{
-  "summary": "2-4 sentence summary",
+  "summary": "Role-specific evaluation summary",
   "skills": {{
-    "current": ["skill"],
-    "missing": ["skill"]
+    "current": ["only relevant to role"],
+    "missing": ["critical missing skills for this role"]
   }},
-  "strengths": ["strength"],
-  "suggestions": ["actionable suggestion"],
-  "career_paths": ["recommended role"],
-  "recommended_courses": ["course or certification"],
+  "strengths": ["based on role"],
+  "suggestions": ["improvements specific to role"],
+  "career_paths": ["aligned with role"],
+  "recommended_courses": ["based on missing skills"],
   "interview_questions": {{
-    "technical": ["question"],
-    "behavioral": ["question"],
-    "project": ["question"]
+    "technical": ["role-based"],
+    "behavioral": ["role-based"],
+    "project": ["role-based"]
   }},
   "ats_score": 0,
   "resume_score": 0,
   "job_match_score": 0
 }}
 
-Rules:
-- Output valid JSON only, with no markdown fences.
-- Keep every list concise and useful.
-- Keep scores as integers from 0 to 100.
-- Use the target role, required skills, and job description if provided.
+⚠️ FINAL INSTRUCTION:
+If role = Frontend → output MUST focus on frontend skills  
+If role = Backend → output MUST focus on backend skills  
+If role changes → EVERYTHING must change accordingly
 
-Target role: {role_name or "Not specified"}
-Required skills: {required_skills_text}
-Baseline missing skills from ATS scan: {fallback_missing}
-Job description: {job_description or "Not provided"}
-
-Resume:
-{resume_text}
-""".strip()
-
+RETURN ONLY JSON.
+"""
 
 def call_ai_provider(provider_key: str, model_name: str, prompt: str) -> str:
     if provider_key == "gemini":
@@ -697,21 +724,19 @@ def merge_analysis(base_analysis: dict[str, Any], ai_analysis: dict[str, Any] | 
         base_analysis["job_match_score"] = 0
         return base_analysis
 
-    suggestions = unique_strings([*(base_analysis.get("suggestions", []) or []), *ai_analysis.get("suggestions", [])])
+    suggestions = ai_analysis.get("suggestions", [])
     found_skills = unique_strings([*(base_analysis.get("skills", []) or []), *ai_analysis.get("skills", [])])
-    missing_skills = unique_strings(
-        [
-            *(base_analysis.get("keyword_match", {}).get("missing_skills", []) or []),
-            *ai_analysis.get("missing_skills", []),
-        ]
-    )
+    missing_skills = ai_analysis.get("missing_skills", [])
 
     merged = {
         **base_analysis,
         "summary": ai_analysis.get("summary") or base_analysis.get("summary", ""),
-        "skills": found_skills or base_analysis.get("skills", []),
+        "skills": ai_analysis.get("skills") if ai_analysis.get("skills") else base_analysis.get("skills", []),
         "resume_score": ai_analysis.get("resume_score") or base_analysis.get("ats_score", 0),
-        "ats_score": ai_analysis.get("ats_score") or base_analysis.get("ats_score", 0),
+        "ats_score": int(
+                        (ai_analysis.get("ats_score", 0) * 0.8) +
+                    (base_analysis.get("ats_score", 0) * 0.2)
+                ),
         "suggestions": suggestions,
         "strengths": ai_analysis.get("strengths", []),
         "career_paths": ai_analysis.get("career_paths", []),
@@ -735,7 +760,11 @@ def calculate_keyword_score(found_skills: list[str], missing_skills: list[str]) 
     total = len(found_skills) + len(missing_skills)
     if total <= 0:
         return 0.0
-    return round((len(found_skills) / total) * 100, 2)
+
+    penalty = len(missing_skills) * 5
+    score = (len(found_skills) / total) * 100
+
+    return max(0, round(score - penalty, 2))
 
 
 def safe_score(value: Any) -> int:
@@ -766,17 +795,31 @@ def safe_string(value: Any) -> str:
 
 
 def resolve_role_context(raw_text: str, target_category: str | None, target_role: str | None) -> dict[str, Any]:
+
+    # ✅ 1. If user selected role → ALWAYS use it
     if target_role:
+        normalized_target = target_role.strip().lower()
+
         for category_name, roles in JOB_ROLES.items():
             if target_category and category_name != target_category:
                 continue
-            if target_role in roles:
-                return {
-                    "category": category_name,
-                    "role": target_role,
-                    "job_requirements": roles[target_role],
-                }
 
+            for role_name in roles.keys():
+                if normalized_target in role_name.strip().lower():
+                    return {
+                        "category": category_name,
+                        "role": role_name,
+                        "job_requirements": roles[role_name],
+                    }
+
+        # ⚠️ If not found → STILL respect user role
+        return {
+            "category": target_category,
+            "role": target_role,
+            "job_requirements": {"required_skills": []},  # fallback safely
+        }
+
+    # ✅ 2. ONLY if user did NOT select role → auto-detect
     suggested_roles = suggest_roles(raw_text)
     if suggested_roles:
         top_match = suggested_roles[0]
@@ -792,7 +835,6 @@ def resolve_role_context(raw_text: str, target_category: str | None, target_role
         "role": None,
         "job_requirements": {"required_skills": []},
     }
-
 
 def suggest_roles(raw_text: str, limit: int = 3) -> list[dict[str, Any]]:
     suggestions: list[dict[str, Any]] = []
