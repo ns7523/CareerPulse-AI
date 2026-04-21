@@ -218,7 +218,7 @@ async def upload_resume(
         analysis = merge_analysis(base_analysis, ai_result.get("analysis"))
 
     certifications = extract_certifications(raw_text)
-    suggested_roles = suggest_roles(raw_text)
+    suggested_roles = suggest_roles(raw_text, selected_role=role_context["role"])
     print("--------------------------------------------------")
     print("ROLE SELECTED:", target_role)
     print("ROLE USED:", role_context["role"])
@@ -749,7 +749,10 @@ def merge_analysis(base_analysis: dict[str, Any], ai_analysis: dict[str, Any] | 
         **base_analysis,
         "summary": ai_analysis.get("summary") or base_analysis.get("summary", ""),
         "skills": found_skills,
-        "resume_score": ai_analysis.get("resume_score") or base_analysis.get("ats_score", 0),
+        "resume_score": int(
+                    (ai_analysis.get("job_match_score", 0) * 0.8) +
+                    (base_analysis.get("ats_score", 0) * 0.2)
+                ),
         "ats_score": int(
                         (ai_analysis.get("ats_score", 0) * 0.8) +
                     (base_analysis.get("ats_score", 0) * 0.2)
@@ -778,7 +781,7 @@ def calculate_keyword_score(found_skills: list[str], missing_skills: list[str]) 
     if total <= 0:
         return 0.0
 
-    penalty = len(missing_skills) * 5
+    penalty = len(missing_skills) * 7
     score = (len(found_skills) / total) * 100
 
     return max(0, round(score - penalty, 2))
@@ -853,20 +856,31 @@ def resolve_role_context(raw_text: str, target_category: str | None, target_role
         "job_requirements": {"required_skills": []},
     }
 
-def suggest_roles(raw_text: str, limit: int = 3) -> list[dict[str, Any]]:
+def suggest_roles(raw_text: str, limit: int = 3, selected_role: str | None = None) -> list[dict[str, Any]]:
     suggestions: list[dict[str, Any]] = []
 
     for category_name, roles in JOB_ROLES.items():
         for role_name, role_data in roles.items():
             required_skills = role_data.get("required_skills", [])
             keyword_match = resume_analyzer.calculate_keyword_match(raw_text, required_skills)
+
             if keyword_match["score"] <= 0:
                 continue
+
+            score = keyword_match["score"]
+
+            # 🔥 BOOST SELECTED ROLE
+            if selected_role and role_name.lower() == selected_role.lower():
+                score += 25
+
+            # 🔥 PENALIZE MISSING SKILLS
+            score -= len(keyword_match["missing_skills"]) * 3
+
             suggestions.append(
                 {
                     "category": category_name,
                     "role": role_name,
-                    "score": round(keyword_match["score"], 2),
+                    "score": max(0, round(score, 2)),
                     "found_skills": keyword_match["found_skills"],
                     "missing_skills": keyword_match["missing_skills"],
                 }
@@ -874,7 +888,6 @@ def suggest_roles(raw_text: str, limit: int = 3) -> list[dict[str, Any]]:
 
     suggestions.sort(key=lambda item: item["score"], reverse=True)
     return suggestions[:limit]
-
 
 def extract_certifications(raw_text: str) -> list[str]:
     certifications: list[str] = []
