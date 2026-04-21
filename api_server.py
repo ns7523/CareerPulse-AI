@@ -320,6 +320,13 @@ def run_ai_analysis_pipeline(
 
         try:
             response_text = call_ai_provider(provider_key, model_name, prompt)
+            if role_name:
+                role_keywords = role_name.lower().split()
+            
+                match_count = sum(1 for word in role_keywords if word in response_text.lower())
+            
+                if match_count < len(role_keywords):
+                    raise ValueError("AI response not role-specific enough")
             structured = normalize_ai_result(parse_ai_json_response(response_text))
             attempts.append(
                 {
@@ -471,6 +478,12 @@ def build_ai_prompt(
     return f"""
 You are a STRICT ATS system and hiring manager.
 
+⚠️ CRITICAL:
+- You MUST behave like a {role_name} hiring manager
+- If response is generic → it is WRONG
+- If response fits multiple roles → it is WRONG
+- Your answer MUST be UNIQUE for this role
+
 🎯 YOUR TASK:
 Evaluate this resume ONLY for the role: {role_name}
 
@@ -596,7 +609,7 @@ def call_openai_compatible(
         headers=headers,
         json={
             "model": model_name,
-            "temperature": 0.2,
+            "temperature": 0.7,
             "messages": [
                 {
                     "role": "system",
@@ -724,14 +737,18 @@ def merge_analysis(base_analysis: dict[str, Any], ai_analysis: dict[str, Any] | 
         base_analysis["job_match_score"] = 0
         return base_analysis
 
-    suggestions = ai_analysis.get("suggestions", [])
-    found_skills = unique_strings([*(base_analysis.get("skills", []) or []), *ai_analysis.get("skills", [])])
+    suggestions = ai_analysis.get("suggestions", []) or base_analysis.get("suggestions", [])
+
+    found_skills = ai_analysis.get("skills", [])
+    if not found_skills:
+        found_skills = base_analysis.get("skills", [])
+    
     missing_skills = ai_analysis.get("missing_skills", [])
 
     merged = {
         **base_analysis,
         "summary": ai_analysis.get("summary") or base_analysis.get("summary", ""),
-        "skills": ai_analysis.get("skills") if ai_analysis.get("skills") else base_analysis.get("skills", []),
+        "skills": found_skills,
         "resume_score": ai_analysis.get("resume_score") or base_analysis.get("ats_score", 0),
         "ats_score": int(
                         (ai_analysis.get("ats_score", 0) * 0.8) +
