@@ -1,0 +1,38 @@
+<svg width="1280" height="420" viewBox="0 0 1280 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050505"/>
+      <stop offset="0.5" stop-color="#0B0F16"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <radialGradient id="a" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1040 110) rotate(140) scale(420 286)">
+      <stop stop-color="#60A5FA" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(190 350) rotate(-33) scale(410 250)">
+      <stop stop-color="#A7F3D0" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#A7F3D0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="20" stdDeviation="34" flood-color="#000" flood-opacity="0.45"/></filter>
+  </defs>
+  <rect width="1280" height="420" rx="36" fill="url(#bg)"/>
+  <rect width="1280" height="420" rx="36" fill="url(#a)"/>
+  <rect width="1280" height="420" rx="36" fill="url(#b)"/>
+  <rect x="32" y="32" width="1216" height="356" rx="30" fill="#fff" fill-opacity="0.035" stroke="#fff" stroke-opacity="0.11"/>
+  <g filter="url(#shadow)"><rect x="96" y="88" width="1088" height="244" rx="30" fill="#0B0F16" fill-opacity="0.74" stroke="#fff" stroke-opacity="0.12"/></g>
+  <circle cx="134" cy="120" r="7" fill="#F87171"/><circle cx="158" cy="120" r="7" fill="#FBBF24"/><circle cx="182" cy="120" r="7" fill="#34D399"/>
+  <g transform="translate(602 116)">
+    <rect x="-42" y="0" width="84" height="84" rx="26" fill="#fff" fill-opacity="0.055" stroke="#fff" stroke-opacity="0.12"/>
+    <path d="M-24 56C-12 34 12 34 24 56" stroke="#A7F3D0" stroke-opacity="0.78" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="0" cy="32" r="17" fill="#60A5FA" fill-opacity="0.13" stroke="#93C5FD" stroke-opacity="0.70" stroke-width="2.5"/>
+    <path d="M-11 68H11" stroke="#E5E7EB" stroke-opacity="0.80" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="640" y="222" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="52" font-weight="760" fill="#F8FAFC">CareerPulse AI</text>
+  <text x="640" y="262" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="450" fill="#CBD5E1">AI Career Intelligence · Resume Insights · Job Readiness Platform</text>
+  <g font-family="Inter, ui-sans-serif, system-ui" font-size="13" font-weight="650" fill="#E5E7EB">
+    <rect x="338" y="304" width="142" height="34" rx="17" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.10"/><text x="409" y="326" text-anchor="middle">Resume AI</text>
+    <rect x="506" y="304" width="142" height="34" rx="17" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.10"/><text x="577" y="326" text-anchor="middle">Career Score</text>
+    <rect x="674" y="304" width="142" height="34" rx="17" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.10"/><text x="745" y="326" text-anchor="middle">Insights</text>
+    <rect x="842" y="304" width="142" height="34" rx="17" fill="#fff" fill-opacity="0.05" stroke="#fff" stroke-opacity="0.10"/><text x="913" y="326" text-anchor="middle">Dashboard</text>
+  </g>
+</svg>
