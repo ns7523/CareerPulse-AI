@@ -9,7 +9,10 @@
 </p>
 
 <p>
-  <code>AI Career Platform</code> · <code>Resume Intelligence</code> · <code>Skill Gap Analysis</code> · <code>Career Dashboard</code>
+  <img src="https://img.shields.io/badge/AI_Platform-7C3AED?style=for-the-badge&logo=openai&logoColor=white" alt="AI Platform" />
+  <img src="https://img.shields.io/badge/Resume_Intelligence-0A84FF?style=for-the-badge&logo=readme&logoColor=white" alt="Resume Intelligence" />
+  <img src="https://img.shields.io/badge/Career_Dashboard-16A34A?style=for-the-badge&logo=googledocs&logoColor=white" alt="Career Dashboard" />
+  <img src="https://img.shields.io/badge/Skill_Gap_Analysis-F59E0B?style=for-the-badge&logo=target&logoColor=white" alt="Skill Gap Analysis" />
 </p>
 
 </div>
@@ -134,66 +137,21 @@ Clear next-step plan for learning, applying, and improving.
 
 ---
 
-## 06 · Tech Stack
-
-> Exact stack should be documented after the application structure is finalized.
-
-<table>
-<tr>
-<td width="25%" valign="top">
-
-**Frontend**
-
-Dashboard UI  
-Responsive Layout
-
-</td>
-<td width="25%" valign="top">
-
-**AI Layer**
-
-Career Insights  
-Resume Analysis
-
-</td>
-<td width="25%" valign="top">
-
-**Data**
-
-Profile Data  
-Skill Signals
-
-</td>
-<td width="25%" valign="top">
-
-**Product**
-
-Career Scoring  
-Recommendations
-
-</td>
-</tr>
-</table>
-
----
-
-## 07 · Installation
+## 06 · Installation
 
 ```bash
 git clone https://github.com/ns7523/CareerPulse-AI.git
 cd CareerPulse-AI
 ```
 
-Install dependencies according to the detected project stack:
+Install dependencies according to the finalized project stack:
 
 ```bash
-# JavaScript / frontend projects
 npm install
 npm run dev
 ```
 
 ```bash
-# Python projects
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -201,7 +159,7 @@ pip install -r requirements.txt
 
 ---
 
-## 08 · Usage
+## 07 · Usage
 
 Recommended user flow:
 
@@ -215,7 +173,7 @@ Recommended user flow:
 
 ---
 
-## 09 · Project Structure
+## 08 · Project Structure
 
 ```text
 .
@@ -226,31 +184,15 @@ Recommended user flow:
 └── README.md
 ```
 
-Recommended structure:
+Suggested production structure:
 
 ```text
-.
-├── assets/
-│   ├── brand/
-│   └── screenshots/
-├── docs/
-│   ├── architecture.md
-│   ├── product-flow.md
-│   └── deployment.md
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   └── utils/
-├── data/
-│   └── sample-profile.json
-├── tests/
-└── README.md
+src/ · docs/ · data/ · tests/ · assets/screenshots/ · README.md
 ```
 
 ---
 
-## 10 · Screenshots & Assets
+## 09 · Visual Assets
 
 <table>
 <tr>
@@ -297,7 +239,7 @@ Personalized career improvement plan.
 
 ---
 
-## 11 · Future Improvements
+## 10 · Future Improvements
 
 - [ ] Document exact application stack and setup commands.
 - [ ] Add screenshots under `assets/screenshots/`.
@@ -315,6 +257,11 @@ Personalized career improvement plan.
 
 **AI & Cybersecurity Engineer**
 
-[GitHub](https://github.com/ns7523) · [LinkedIn](https://www.linkedin.com/in/nsakash7523) · [Portfolio](https://nsakash.in) · [Email](mailto:nsakash752003@gmail.com)
+<p>
+  <a href="https://github.com/ns7523"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
+  <a href="https://nsakash.in"><img src="https://img.shields.io/badge/Portfolio-0A84FF?style=for-the-badge&logo=safari&logoColor=white" alt="Portfolio" /></a>
+  <a href="mailto:contact@nsakash.in"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+  <a href="https://www.linkedin.com/in/nsakash7523"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+</p>
 
 </div>
