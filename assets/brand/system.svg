@@ -1,0 +1,29 @@
+<svg width="1280" height="620" viewBox="0 0 1280 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050505"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="250" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.03"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2L10 6L2 10" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="620" rx="32" fill="url(#bg)"/>
+  <circle cx="1080" cy="104" r="220" fill="#60A5FA" fill-opacity="0.11"/>
+  <circle cx="168" cy="526" r="250" fill="#A7F3D0" fill-opacity="0.08"/>
+  <rect x="36" y="36" width="1208" height="548" rx="28" fill="#FFFFFF" fill-opacity="0.03" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="86" y="94" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#94A3B8" letter-spacing="3">CAREER INTELLIGENCE FLOW</text>
+  <text x="86" y="132" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="34" font-weight="760" fill="#F8FAFC">From career profile to actionable recommendations</text>
+  <g transform="translate(78 232)"><rect width="220" height="132" rx="24" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.13"/><circle cx="48" cy="50" r="18" fill="#60A5FA" fill-opacity="0.14" stroke="#93C5FD" stroke-opacity="0.62"/><text x="84" y="56" font-family="Inter, ui-sans-serif, system-ui" font-size="21" font-weight="730" fill="#F8FAFC">Profile</text><text x="32" y="94" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">Resume and career</text><text x="32" y="116" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">input signals</text></g>
+  <g transform="translate(368 232)"><rect width="220" height="132" rx="24" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.13"/><path d="M35 48H66M35 60H58M35 72H70" stroke="#CBD5E1" stroke-opacity="0.82" stroke-width="4" stroke-linecap="round"/><text x="84" y="56" font-family="Inter, ui-sans-serif, system-ui" font-size="21" font-weight="730" fill="#F8FAFC">Analysis</text><text x="32" y="94" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">Parsing, scoring,</text><text x="32" y="116" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">and skill mapping</text></g>
+  <g transform="translate(658 232)"><rect width="220" height="132" rx="24" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.13"/><rect x="31" y="34" width="36" height="36" rx="12" fill="#A7F3D0" fill-opacity="0.15" stroke="#A7F3D0" stroke-opacity="0.62"/><text x="84" y="56" font-family="Inter, ui-sans-serif, system-ui" font-size="21" font-weight="730" fill="#F8FAFC">AI Layer</text><text x="32" y="94" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">Insights and</text><text x="32" y="116" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">recommendations</text></g>
+  <g transform="translate(948 232)"><rect width="220" height="132" rx="24" fill="url(#card)" stroke="#FFFFFF" stroke-opacity="0.13"/><path d="M32 72L48 34L66 72H32Z" fill="#FBBF24" fill-opacity="0.14" stroke="#FDE68A" stroke-opacity="0.58"/><text x="84" y="56" font-family="Inter, ui-sans-serif, system-ui" font-size="21" font-weight="730" fill="#F8FAFC">Dashboard</text><text x="32" y="94" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">Career pulse and</text><text x="32" y="116" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">action plan</text></g>
+  <line x1="298" y1="298" x2="358" y2="298" stroke="#94A3B8" stroke-opacity="0.62" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="588" y1="298" x2="648" y2="298" stroke="#94A3B8" stroke-opacity="0.62" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="878" y1="298" x2="938" y2="298" stroke="#94A3B8" stroke-opacity="0.62" stroke-width="2" marker-end="url(#arrow)"/>
+  <g transform="translate(170 438)"><rect width="940" height="92" rx="24" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.10"/><text x="40" y="39" font-family="Inter, ui-sans-serif, system-ui" font-size="17" font-weight="700" fill="#E5E7EB">Product Goal</text><text x="40" y="66" font-family="Inter, ui-sans-serif, system-ui" font-size="14" fill="#94A3B8">Turn career data into clear readiness signals, skill gaps, and personalized next-step recommendations.</text></g>
+</svg>
